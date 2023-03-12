@@ -4,7 +4,7 @@ Um grupo de psicólogos se juntou e criou a clínica 'La Vie - Saúde Mental' qu
 
 Para ajudar nos atendimentos, eles precisam de uma API que permita criar registros de psicólogos, pacientes e prontuários.
 
-Em uma conversa com os front-end e os PO, foram decididos alguns grupos de endpoints que devem ser criados.
+Desafio #3 Gama Academy: Projeto API / Clínica La Vie.
 
 ## Objetivo de aprendizagem
 
