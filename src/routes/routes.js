@@ -10,7 +10,7 @@ import { createPsic, deletePsic, findALlPsic, findOnePsic, updatePsic } from "..
 import { createPac, deletePac, findALlPac, findOnePac, updatePac } from "../controllers/pac.controller.js";
 
 
-// IMPORTAR CONTROLLERS - PRONTUÁRIOS
+// IMPORTAR CONTROLLERS - ATENDIMENTOS
 import { createAtend, deleteAtend, findALlAtend, findOneAtend, updateAtend } from "../controllers/atend.controller.js";
 
 
