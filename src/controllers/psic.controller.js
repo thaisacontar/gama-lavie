@@ -8,7 +8,7 @@ export const createPsicCont = async (req, res) => {
         const { id } = req.headers;
         const { nome, email, senha, apresentacao } = req.body;
 
-        const novoPsic = await createPsicRep(id, nome, email, senha, apresentacao);
+        const novoPsic = await createPsicRep(nome, email, senha, apresentacao);
 
         return res.status(201).json({ novoPsic });
     } catch (error) {
@@ -44,7 +44,7 @@ export const updatePsicCont = async (req, res) => {
     const { id } = req.headers;
     const { nome, email, senha, apresentacao } = req.body;
 
-    const atualizarPsic = await updatePsicRep(id, nome, email, senha, apresentacao);
+    const atualizarPsic = await updatePsicRep(nome, email, senha, apresentacao);
 
     if (!atualizarPsic) {
         return res.status(404).json({ message: "ID não encontrado." })
@@ -57,9 +57,9 @@ export const updatePsicCont = async (req, res) => {
         atualizarPsic.senha = senha;
         atualizarPsic.apresentacao = apresentacao;
 
-        return res.status(202).json(atualizarPsic)
+        return res.status(202).json({ atualizarPsic })
     } catch (error) {
-        return res.status(400).json("Não foi possível atualizar o cadastro.");
+        return res.status(400).json({ message: "Não foi possível atualizar o cadastro." });
     }
 }
 
@@ -69,7 +69,7 @@ export const deletePsicCont = async (req, res) => {
     const deletarPsic = await deletePsicRep(id);
 
     if (!deletarPsic) {
-        return res.status(404).json("ID não encontrado.");
+        return res.status(404).json({ message: "ID não encontrado." });
     }
 
     return res.status(204).send();

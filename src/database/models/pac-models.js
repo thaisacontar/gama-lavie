@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { db } from "../db.js";
 
-export const pacMod = db.define('tabela-pacientes', {
+export const pacMod = db.define('tabela_pacientes', {
 
     id: {
         type: DataTypes.INTEGER,
@@ -24,6 +24,6 @@ export const pacMod = db.define('tabela-pacientes', {
         allowNull: false,
     },
 }, {
-    tableName: "tabela-pacientes",
+    tableName: "tabela_pacientes",
     timestamps: false,
 });

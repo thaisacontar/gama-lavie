@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { db } from "../db.js";
 
-export const psicMod = db.define('tabela-psicologos', {
+export const psicMod = db.define('tabela_psicologos', {
 
     id: {
         type: DataTypes.INTEGER,
@@ -28,6 +28,6 @@ export const psicMod = db.define('tabela-psicologos', {
         allowNull: false,
     },
 }, {
-    tableName: "tabela-psicologos",
+    tableName: "tabela_psicologos",
     timestamps: false,
 });

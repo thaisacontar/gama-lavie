@@ -3,7 +3,7 @@ import { db } from "../db.js";
 import { psicMod } from "./psic-models.js";
 import { pacMod } from "./pac-models.js";
 
-export const atendMod = db.define('tabela-atendimentos', {
+export const atendMod = db.define('tabela_atendimentos', {
 
     id: {
         type: DataTypes.INTEGER,
@@ -37,6 +37,6 @@ export const atendMod = db.define('tabela-atendimentos', {
         }
     },
 }, {
-    tableName: "tabela-atendimentos",
+    tableName: "tabela_atendimentos",
     timestamps: false,
 });
