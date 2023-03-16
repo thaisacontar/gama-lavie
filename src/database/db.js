@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 
 const DB_NAME = "gama-lavie";
 const DB_USER = "root";
-const DB_PASS = "th4*H4_t7-bah";
+const DB_PASS = "senha1";
 
 const DB_CONFIGS = {
     dialect: 'mysql',
