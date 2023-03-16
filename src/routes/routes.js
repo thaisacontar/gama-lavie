@@ -1,48 +1,39 @@
 import { Router } from "express";
 
-const routers = Router();
-
 // IMPORTAR CONTROLLERS - PSICÓLOGOS
-import { createPsic, deletePsic, findALlPsic, findOnePsic, updatePsic } from "../controllers/psic.controller.js";
-
+import { createPsicCont, findAllPsicCont, findOnePsicCont, updatePsicCont, deletePsicCont } from "../controllers/psic.controller.js";
 
 // IMPORTAR CONTROLLERS - PACIENTES
-import { createPac, deletePac, findALlPac, findOnePac, updatePac } from "../controllers/pac.controller.js";
-
+import { createPacCont, findALlPacCont, findOnePacCont, updatePacCont, deletePacCont } from "../controllers/pac.controller.js";
 
 // IMPORTAR CONTROLLERS - ATENDIMENTOS
-import { createAtend, deleteAtend, findALlAtend, findOneAtend, updateAtend } from "../controllers/atend.controller.js";
+import { createAtendCont, findALlAtendCont, findOneAtendCont, updateAtendCont, deleteAtendCont } from "../controllers/atend.controller.js";
 
+const routers = Router();
 
 // CRUD PSICÓLOGOS
-routers.post('/psicologos', createPsic);
-routers.get('/psicologos', findALlPsic);
-routers.get('/psicologos/:id', findOnePsic);
-routers.put('/psicologos', updatePsic);
-routers.delete('/psicologos', deletePsic);
-
+routers.post('/psicologos', createPsicCont);
+routers.get('/psicologos', findAllPsicCont);
+routers.get('/psicologos/:id', findOnePsicCont);
+routers.put('/psicologos', updatePsicCont);
+routers.delete('/psicologos', deletePsicCont);
 
 // CRUD PACIENTES
-routers.post('/pacientes', createPac);
-routers.get('/pacientes', findALlPac);
-routers.get('/pacientes/:id', findOnePac);
-routers.put('/pacientes', updatePac);
-routers.delete('/pacientes', deletePac);
-
+routers.post('/pacientes', createPacCont);
+routers.get('/pacientes', findALlPacCont);
+routers.get('/pacientes/:id', findOnePacCont);
+routers.put('/pacientes', updatePacCont);
+routers.delete('/pacientes', deletePacCont);
 
 // CRUD ATENDIMENTOS
-routers.post('/atendimentos', createAtend);
-routers.get('/atendimentos', findALlAtend);
-routers.get('/atendimentos/:id', findOneAtend);
-routers.put('/atendimentos', updateAtend);
-routers.delete('/atendimentos', deleteAtend);
-
+routers.post('/atendimentos', createAtendCont);
+routers.get('/atendimentos', findALlAtendCont);
+routers.get('/atendimentos/:id', findOneAtendCont);
+routers.put('/atendimentos', updateAtendCont);
+routers.delete('/atendimentos', deleteAtendCont);
 
 // CRUD DASHBOARD (opcional)
 
-
-
 // CRUD LOGIN (post)
-
 
 export default routers;

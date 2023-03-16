@@ -1,38 +1,22 @@
 // CONTROLLERS PACIENTES
 
-import { randomUUID } from 'node:crypto';
+import { createPacRep, deletePacRep } from '../repositories/pac.repository.js';
 
 // INSERT 
-export const createPac = (req, res) => {
+export const createPacCont = async (req, res) => {
     try {
-        const users = global.users;
-        const { name, email, idade } = req.body;
+        const { id } = req.headers;
+        const { nome, email, idade } = req.body;
 
-        const cadastrarPac = {
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            idade: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            id: randomUUID()
-        };
-        users.push(cadastrarPac)
-        return res.status(201).json(cadastrarPac);
+        const novoPac = await createPacRep({ id, nome, email, idade });
+        return res.status(201).json(novoPac);
     } catch (error) {
         return res.status(400).json({ message: "Não foi possível realizar o cadastro." })
     }
 }
 
 // FIND ALL
-export const findALlPac = (req, res) => {
+export const findALlPacCont = (req, res) => {
     try {
         const listarPac = global.users;
         return res.status(200).json(listarPac);
@@ -42,7 +26,7 @@ export const findALlPac = (req, res) => {
 }
 
 // FIND ONE
-export const findOnePac = (req, res) => {
+export const findOnePacCont = (req, res) => {
     const users = global.users;
     const { id } = req.params;
     const buscarPac = users.find(user => user.id === id);
@@ -55,7 +39,7 @@ export const findOnePac = (req, res) => {
 }
 
 // UPDATE
-export const updatePac = (req, res) => {
+export const updatePacCont = (req, res) => {
     const users = global.users;
     const { id } = req.headers;
     const { name, email, senha, apresentacao } = req.body;
@@ -78,19 +62,13 @@ export const updatePac = (req, res) => {
 }
 
 // DELETE
-export const deletePac = (req, res) => {
-    const deletarPac = global.users;
+export const deletePacCont = async (req, res) => {
     const { id } = req.headers;
-    const indexOfUser = users.findIndex(user => user.id === id);
+    const deletarPac = await deletePacRep(id);
 
     if (!deletarPac) {
         return res.status(404).json("ID não encontrado.");
     }
 
-    try {
-        deletarPac.splice(indexOfUser, 1);
-        return res.status(204).send();
-    } catch (error) {
-        return res.status(400).json("Não foi possível realizar a ação.");
-    }
+    return res.status(204).send();
 }

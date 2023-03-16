@@ -1,37 +1,25 @@
 // CONTROLLERS ATENDIMENTOS
 
-import { randomUUID } from 'node:crypto';
+import { createAtendRep, findAllAtendRep, findOneAtendRep, updateAtendRep, deleteAtendRep } from "../repositories/atend.repository.js";
 
 // INSERT 
-export const createAtend = (req, res) => {
+export const createAtendCont = async (req, res) => {
     try {
-        const users = global.users;
+        const { id } = req.headers;
         const { paciente_id, psicologo_id, data_atendimento, observacao } = req.body;
 
-        const cadastrarAtend = {
-            paciente_id,
-            psicologo_id,
-            data_atendimento: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
-            observacao: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            id: randomUUID()
-        };
-        users.push(cadastrarAtend)
-        return res.status(201).json(cadastrarAtend);
+        const novoAtend = await createAtendRep(id, paciente_id, psicologo_id, data_atendimento, observacao);
+
+        return res.status(201).json(novoAtend);
     } catch (error) {
         return res.status(400).json({ message: "Não foi possível realizar o cadastro." })
     }
 }
 
 // FIND ALL
-export const findALlAtend = (req, res) => {
+export const findALlAtendCont = async (req, res) => {
     try {
-        const listarAtend = global.users;
+        const listarAtend = await findAllAtendRep();
         return res.status(200).json(listarAtend);
     } catch (error) {
         return res.status(500).json({ message: "Não foi possível realizar a ação." });
@@ -39,28 +27,27 @@ export const findALlAtend = (req, res) => {
 }
 
 // FIND ONE
-export const findOneAtend = (req, res) => {
-    const users = global.users;
+export const findOneAtendCont = async (req, res) => {
     const { id } = req.params;
-    const buscarAtend = users.find(user => user.id === id);
+
+    const buscarAtend = await findOneAtendRep(id);
 
     if (!buscarAtend) {
-        return res.status(404).json({ message: "ID não encontrado." })
+        return res.status(404).json({ message: "Atendimento não encontrado." })
     }
 
     return res.status(200).json({ buscarAtend })
 }
 
 // UPDATE
-export const updateAtend = (req, res) => {
-    const users = global.users;
+export const updateAtendCont = async (req, res) => {
     const { id } = req.headers;
     const { paciente_id, psicologo_id, data_atendimento, observacao } = req.body;
 
-    const atualizarAtend = users.find(user => user.id === id);
+    const atualizarAtend = await updateAtendRep(id, paciente_id, psicologo_id, data_atendimento, observacao)
 
     if (!atualizarAtend) {
-        return res.status(404).json({ message: "ID não encontrado." })
+        return res.status(404).json({ message: "Atendimento não encontrado." })
     }
 
     try {
@@ -69,26 +56,21 @@ export const updateAtend = (req, res) => {
         atualizarAtend.data_atendimento = data_atendimento;
         atualizarAtend.observacao = observacao;
 
-        return res.status(200).json({ atualizarAtend })
+        return res.status(202).json({ atualizarAtend })
     } catch (error) {
-        return res.status(400).json("Não foi possível atualizar o cadastro.");
+        return res.status(400).json("Não foi possível atualizar o atendimento.");
     }
 }
 
 // DELETE
-export const deleteAtend = (req, res) => {
-    const deletarAtend = global.users;
+export const deleteAtendCont = async (req, res) => {
     const { id } = req.headers;
-    const indexOfUser = users.findIndex(user => user.id === id);
+
+    const deletarAtend = await deleteAtendRep(id);
 
     if (!deletarAtend) {
-        return res.status(404).json("ID não encontrado.");
+        return res.status(404).json("Atendimento não encontrado.");
     }
 
-    try {
-        deletarAtend.splice(indexOfUser, 1);
-        return res.status(204).send();
-    } catch (error) {
-        return res.status(400).json("Não foi possível realizar a ação.");
-    }
+    return res.status(204).send();
 }

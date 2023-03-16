@@ -1,56 +1,36 @@
 // CONTROLLERS PSICÓLOGOS
 
-import { randomUUID } from 'node:crypto';
-// import { DataTypes } from 'sequelize';
+import { createPsicRep, deletePsicRep, findAllPsicRep, findOnePsicRep, updatePsicRep } from '../repositories/psic.repository.js';
 
-// INSERT 
-export const createPsic = (req, res) => {
+// INSERT
+export const createPsicCont = async (req, res) => {
     try {
-        const users = global.users;
-        const { name, email, senha, apresentacao } = req.body;
+        const { id } = req.headers;
+        const { nome, email, senha, apresentacao } = req.body;
 
-        const cadastrarPsic = {
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            senha: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            apresentacao: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            id: randomUUID()
-        };
-        users.push(cadastrarPsic)
-        return res.status(201).json(cadastrarPsic);
+        const novoPsic = await createPsicRep(id, nome, email, senha, apresentacao);
+
+        return res.status(201).json({ novoPsic });
     } catch (error) {
         return res.status(400).json({ message: "Não foi possível realizar o cadastro." })
     }
 }
 
 // FIND ALL
-export const findALlPsic = (req, res) => {
+export const findAllPsicCont = async (req, res) => {
     try {
-        const listarPsic = global.users;
+        const listarPsic = await findAllPsicRep();
         return res.status(200).json(listarPsic);
     } catch (error) {
-        return res.status(500).json({ message: "Não foi possível realizar a ação." });
+        return res.status(400).json({ message: "Não foi possível realizar a ação." });
     }
 }
 
-// FIND ONE
-export const findOnePsic = (req, res) => {
-    const users = global.users;
+// FIND ONE - 
+export const findOnePsicCont = async (req, res) => {
     const { id } = req.params;
-    const buscarPsic = users.find(user => user.id === id);
+
+    const buscarPsic = await findOnePsicRep(id);
 
     if (!buscarPsic) {
         return res.status(404).json({ message: "ID não encontrado." })
@@ -60,43 +40,37 @@ export const findOnePsic = (req, res) => {
 }
 
 // UPDATE
-export const updatePsic = (req, res) => {
-    const users = global.users;
+export const updatePsicCont = async (req, res) => {
     const { id } = req.headers;
-    const { name, email, senha, apresentacao } = req.body;
+    const { nome, email, senha, apresentacao } = req.body;
 
-    const atualizarPsic = users.find(user => user.id === id);
+    const atualizarPsic = await updatePsicRep(id, nome, email, senha, apresentacao);
 
     if (!atualizarPsic) {
         return res.status(404).json({ message: "ID não encontrado." })
     }
 
+    // essa parte é onde o nome antigo muda pro nome novo
     try {
-        atualizarPsic.name = name;
+        atualizarPsic.nome = nome;
         atualizarPsic.email = email;
         atualizarPsic.senha = senha;
         atualizarPsic.apresentacao = apresentacao;
 
-        return res.status(200).json({ atualizarPsic })
+        return res.status(202).json(atualizarPsic)
     } catch (error) {
         return res.status(400).json("Não foi possível atualizar o cadastro.");
     }
 }
 
 // DELETE
-export const deletePsic = (req, res) => {
-    const deletarPsic = global.users;
+export const deletePsicCont = async (req, res) => {
     const { id } = req.headers;
-    const indexOfUser = users.findIndex(user => user.id === id);
+    const deletarPsic = await deletePsicRep(id);
 
     if (!deletarPsic) {
         return res.status(404).json("ID não encontrado.");
     }
 
-    try {
-        deletarPsic.splice(indexOfUser, 1);
-        return res.status(204).send();
-    } catch (error) {
-        return res.status(400).json("Não foi possível realizar a ação.");
-    }
+    return res.status(204).send();
 }
