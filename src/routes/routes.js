@@ -32,8 +32,6 @@ routers.delete('/pacientes', deletePacCont);
 routers.post('/atendimentos', createAtendCont);
 routers.get('/atendimentos', findALlAtendCont);
 routers.get('/atendimentos/:id', findOneAtendCont);
-routers.put('/atendimentos', updateAtendCont);
-routers.delete('/atendimentos', deleteAtendCont);
 
 // CRUD DASHBOARD (opcional)
 
