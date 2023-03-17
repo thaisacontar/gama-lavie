@@ -11,6 +11,9 @@ import { createAtendCont, findALlAtendCont, findOneAtendCont, updateAtendCont, d
 
 const routers = Router();
 
+// CRUD LOGIN (post)
+
+
 // CRUD PSICÓLOGOS
 routers.post('/psicologos', createPsicCont);
 routers.get('/psicologos', findAllPsicCont);
@@ -33,7 +36,5 @@ routers.put('/atendimentos', updateAtendCont);
 routers.delete('/atendimentos', deleteAtendCont);
 
 // CRUD DASHBOARD (opcional)
-
-// CRUD LOGIN (post)
 
 export default routers;
